@@ -9,23 +9,50 @@ public abstract class APhysical implements IPhysical {
     private int width;
     private int height;
 
-    protected int getTop() {
+    APhysical(int width, int height, int x, int y) {
+        this.width = width;
+        this.height = height;
+        setVelocity(0, 0);
+        setTopLeft(x, y);
+    }
+
+    private void setTopLeft(int x, int y) {
+        topLeft = new Point2D(x, y);
+    }
+
+    protected void setVelocity(double dx, double dy) {
+        velocity = new Point2D(dx, dy);
+    }
+
+    private int getTop() {
         return (int)topLeft.getY();
     }
 
-    protected int getBottom() {
+    private int getBottom() {
         return (int)topLeft.getY() + height;
     }
 
-    protected int getLeft() {
+    private int getLeft() {
         return (int)topLeft.getX();
     }
 
-    protected int getRight() {
+    private int getRight() {
         return (int)topLeft.getX() + width;
     }
 
-    private void boundPosition(int maxX, int maxY) {
+    public Point2D getTopLeft() {
+        return topLeft;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    void boundPosition(int maxX, int maxY) {
         if (getTop() < 0) {
             topLeft = new Point2D(topLeft.getX(),0);
         }
@@ -40,11 +67,10 @@ public abstract class APhysical implements IPhysical {
         }
     }
 
-    protected void move(double xVelocity, double yVelocity, int maxX, int maxY) {
+    void move(double xVelocity, double yVelocity) {
         topLeft = new Point2D(topLeft.getX() + xVelocity, topLeft.getY() + yVelocity);
-        boundPosition(maxX, maxY);
     }
 
     @Override
-    public abstract void onTick();
+    public abstract void onTick(Game g);
 }
