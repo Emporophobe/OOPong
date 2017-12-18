@@ -9,5 +9,6 @@ public class DrawGame {
         gc.setFill(Color.color(0.16, 0.16, 0.18));
         gc.fillRect(0, 0, g.getWidth(), g.getHeight());
         g.getPaddles().forEach(p -> DrawIPhysical.draw(p, gc));
+        g.getBalls().forEach(b -> DrawIPhysical.draw(b, gc));
     }
 }

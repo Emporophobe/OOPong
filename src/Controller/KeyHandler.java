@@ -4,9 +4,7 @@ import Model.Game;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class KeyHandler {
@@ -39,6 +37,10 @@ public class KeyHandler {
         }
         if (keyCodes.contains(KeyCode.DOWN)) {
             p1y += speed;
+        }
+
+        if (keyCodes.contains((KeyCode.R))) {
+            g.reset();
         }
 
         g.setPaddleVelocity(0, p0x, p0y);

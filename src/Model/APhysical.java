@@ -20,23 +20,27 @@ public abstract class APhysical implements IPhysical {
         topLeft = new Point2D(x, y);
     }
 
-    protected void setVelocity(double dx, double dy) {
+    public void setVelocity(double dx, double dy) {
         velocity = new Point2D(dx, dy);
     }
 
-    private int getTop() {
+    Point2D getVelocity() {
+        return velocity;
+    }
+
+    public int getTop() {
         return (int)topLeft.getY();
     }
 
-    private int getBottom() {
+    public int getBottom() {
         return (int)topLeft.getY() + height;
     }
 
-    private int getLeft() {
+    public int getLeft() {
         return (int)topLeft.getX();
     }
 
-    private int getRight() {
+    public int getRight() {
         return (int)topLeft.getX() + width;
     }
 
@@ -57,14 +61,21 @@ public abstract class APhysical implements IPhysical {
             topLeft = new Point2D(topLeft.getX(),0);
         }
         if (getBottom() > maxY) {
-            topLeft = new Point2D(topLeft.getX(), maxY);
+            topLeft = new Point2D(topLeft.getX(), maxY - height);
         }
         if (getLeft() < 0) {
             topLeft = new Point2D(0, topLeft.getY());
         }
-        if (getRight() > maxY) {
-            topLeft = new Point2D(maxX, topLeft.getY());
+        if (getRight() > maxX) {
+            topLeft = new Point2D(maxX - width, topLeft.getY());
         }
+    }
+
+    public boolean overlaps(IPhysical other) {
+        return (this.getLeft() < other.getRight() &&
+                this.getRight() > other.getLeft() &&
+                this.getTop() < other.getBottom() &&
+                this.getBottom() > other.getTop());
     }
 
     void move(double xVelocity, double yVelocity) {
