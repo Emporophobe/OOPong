@@ -1,19 +1,21 @@
 package Model;
 
+import javafx.geometry.Point2D;
+
 public class Paddle extends APhysical {
-    private double xVelocity;
+    private Point2D velocity;
 
     Paddle(int width, int height, int x, int y) {
         super(width, height, x, y);
     }
 
-    public void setxVelocity(double velocity) {
-        xVelocity = velocity;
+    public void setVelocity(double dx, double dy) {
+        velocity = new Point2D(dx, dy);
     }
 
     @Override
     public void onTick(Game g) {
-        move(xVelocity, 0);
+        move(velocity.getX(), velocity.getY());
         boundPosition(g.getWidth(), g.getHeight());
     }
 }

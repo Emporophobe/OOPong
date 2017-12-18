@@ -1,3 +1,4 @@
+import Controller.KeyHandler;
 import Model.Game;
 import View.DrawGame;
 import javafx.animation.AnimationTimer;
@@ -34,11 +35,15 @@ public class Main extends Application{
         // Make the world and populate it
         Game g = new Game(WIDTH, HEIGHT);
 
+        theScene.setOnKeyPressed(KeyHandler::handleKeyPressed);
+        theScene.setOnKeyReleased(KeyHandler::handleKeyReleased);
+
         // Animation loop
         new AnimationTimer() {
             @Override
             public void handle(long currentNanoTime) {
                 g.onTick();
+                KeyHandler.processKeys(g);
                 DrawGame.draw(g, gc);
             }
         }.start();

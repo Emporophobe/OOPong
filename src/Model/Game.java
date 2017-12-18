@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
-    private List<IPhysical> paddles = new ArrayList<>();
+    private List<Paddle> paddles = new ArrayList<>();
     private int width;
     private int height;
 
@@ -32,7 +32,11 @@ public class Game {
         return width;
     }
 
-    public List<IPhysical> getPaddles() {
+    public List<Paddle> getPaddles() {
         return paddles;
+    }
+
+    public void setPaddleVelocity(int playernumber, double dx, double dy) {
+        paddles.get(playernumber).setVelocity(dx, dy);
     }
 }
