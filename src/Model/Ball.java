@@ -4,9 +4,16 @@ import javafx.geometry.Point2D;
 
 public class Ball extends APhysical {
 
+    private static int counter = 0;
+
     Ball(int width, int height, int x, int y) {
         super(width, height, x, y);
-        setVelocity(5, 2);
+        if (counter % 2 == 0) {
+            setVelocity(5, 2);
+        } else {
+            setVelocity(-5, 2);
+        }
+        counter++;
     }
 
     private void bounce(Game g) {
@@ -26,13 +33,16 @@ public class Ball extends APhysical {
                 int top2 = that.getTop();
                 int bottom2 = that.getBottom();
 
+                Point2D velocity2 = that.getVelocity();
                 if ((left1 < right2 && left1 > left2) ||
                         (right1 < right2 && right1 > left2)) {
-                    dx = -dx + that.getVelocity().getX();
+                    dx = -dx + velocity2.getX();
+                    dy += velocity2.getY();
                 }
                 else if ((top1 < bottom2 && top1 > top2) ||
                         (bottom1 > top2 && bottom1 < bottom2)) {
-                    dy = -dy + that.getVelocity().getY();
+                    dy = -dy + velocity2.getY();
+                    dx += velocity2.getX();
                 }
             }
         }

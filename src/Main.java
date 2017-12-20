@@ -13,13 +13,14 @@ public class Main extends Application{
     // TODO: Make a config file or something for values
     private int WIDTH = 800;
     private int HEIGHT = 600;
+    private int PLAYERS = 2;
 
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         // Set up Javafx objects
         Group root = new Group();
         Scene theScene = new Scene(root);
@@ -33,7 +34,7 @@ public class Main extends Application{
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         // Make the world and populate it
-        Game g = new Game(WIDTH, HEIGHT);
+        Game g = new Game(WIDTH, HEIGHT, PLAYERS, 10);
 
         theScene.setOnKeyPressed(KeyHandler::handleKeyPressed);
         theScene.setOnKeyReleased(KeyHandler::handleKeyReleased);
