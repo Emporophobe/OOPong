@@ -1,5 +1,7 @@
 package Model;
 
+import app.PropertiesManager;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -24,8 +26,8 @@ public class Game {
     }
 
     private void initializeGame() {
-        int paddleWidth = 20;
-        int paddleHeight = 100;
+        int paddleWidth = PropertiesManager.getIntProperty("paddle_width");
+        int paddleHeight = PropertiesManager.getIntProperty("paddle_height");
 
         int distanceFromEdge = 50;
 
@@ -97,8 +99,9 @@ public class Game {
     }
 
     public void addBall() {
-        if (!isOver()) {
-            balls.add(new Ball(20, 20, width / 2, height / 2));
+        if (!isOver() && balls.size() < PropertiesManager.getIntProperty("max_balls")) {
+            int size = PropertiesManager.getIntProperty("ball_size");
+            balls.add(new Ball(size, size, width / 2, height / 2));
         }
     }
 

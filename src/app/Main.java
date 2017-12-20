@@ -1,3 +1,5 @@
+package app;
+
 import Controller.KeyHandler;
 import Model.Game;
 import View.DrawGame;
@@ -10,10 +12,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 
 public class Main extends Application{
-    // TODO: Make a config file or something for values
-    private int WIDTH = 800;
-    private int HEIGHT = 600;
-    private int PLAYERS = 2;
+    private int WIDTH = PropertiesManager.getIntProperty("width");
+    private int HEIGHT = PropertiesManager.getIntProperty("height");
+    private int PLAYERS = PropertiesManager.getIntProperty("players");
+    private int MAX_SCORE = PropertiesManager.getIntProperty("max_score");
 
     public static void main(String[] args) {
         launch(args);
@@ -34,7 +36,7 @@ public class Main extends Application{
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         // Make the world and populate it
-        Game g = new Game(WIDTH, HEIGHT, PLAYERS, 10);
+        Game g = new Game(WIDTH, HEIGHT, PLAYERS, MAX_SCORE);
 
         theScene.setOnKeyPressed(KeyHandler::handleKeyPressed);
         theScene.setOnKeyReleased(KeyHandler::handleKeyReleased);
