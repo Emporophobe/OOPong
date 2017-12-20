@@ -9,6 +9,8 @@ public interface IPhysical {
 
     Point2D getTopLeft();
 
+    Point2D getVelocity();
+
     int getWidth();
     int getHeight();
 

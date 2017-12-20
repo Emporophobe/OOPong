@@ -1,19 +1,23 @@
 package Model;
 
+import app.PropertiesManager;
 import javafx.geometry.Point2D;
+
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.Random;
 
 public class Ball extends APhysical {
 
-    private static int counter = 0;
-
     Ball(int width, int height, int x, int y) {
         super(width, height, x, y);
-        if (counter % 2 == 0) {
-            setVelocity(5, 2);
-        } else {
-            setVelocity(-5, 2);
-        }
-        counter++;
+        int speed = PropertiesManager.getIntProperty("ball_speed");
+
+        Random r = new Random();
+        double angle = 360 * r.nextDouble();
+
+        setVelocity(speed * Math.sin(angle),
+                speed * Math.cos(angle));
     }
 
     private void bounce(Game g) {
@@ -26,7 +30,14 @@ public class Ball extends APhysical {
         double dx = velocity.getX();
         double dy = velocity.getY();
 
-        for (Paddle that : g.getPaddles()) {
+        Collection<IPhysical> collidables = new LinkedList<>();
+        collidables.addAll(g.getPaddles());
+
+        if (PropertiesManager.getBooleanProperty("balls_collide")) {
+            collidables.addAll(g.getBalls());
+        }
+
+        for (IPhysical that : collidables) {
             if (this.overlaps(that)) {
                 int left2 = that.getLeft();
                 int right2 = that.getRight();

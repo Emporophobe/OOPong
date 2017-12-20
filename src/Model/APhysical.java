@@ -24,7 +24,7 @@ public abstract class APhysical implements IPhysical {
         velocity = new Point2D(dx, dy);
     }
 
-    Point2D getVelocity() {
+    public Point2D getVelocity() {
         return velocity;
     }
 

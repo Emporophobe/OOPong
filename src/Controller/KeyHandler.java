@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Game;
+import app.PropertiesManager;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -31,7 +32,7 @@ public class KeyHandler {
     public static void processKeys(Game g) {
         processNewKeys(g);
 
-        int speed = 10;
+        int speed = PropertiesManager.getIntProperty("paddle_speed");
 
         int p0x = 0;
         int p1x = 0;

@@ -16,8 +16,11 @@ public class PropertiesManager {
             Map.entry("max_score", "10"),
             Map.entry("paddle_width", "20"),
             Map.entry("paddle_height", "100"),
+            Map.entry("paddle_speed", "15"),
             Map.entry("ball_size", "20"),
-            Map.entry("max_balls", "5")
+            Map.entry("max_balls", "5"),
+            Map.entry("ball_speed", "7"),
+            Map.entry("balls_collide", "true")
     );
 
     private PropertiesManager() {
@@ -64,5 +67,12 @@ public class PropertiesManager {
             instance = new PropertiesManager();
         }
         return Integer.parseInt(prop.getProperty(key));
+    }
+
+    public static boolean getBooleanProperty(String key) {
+        if (instance == null) {
+            instance = new PropertiesManager();
+        }
+        return Boolean.parseBoolean(prop.getProperty(key));
     }
 }
