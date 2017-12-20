@@ -2,14 +2,12 @@ package Model;
 
 import app.PropertiesManager;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Game {
     private List<Paddle> paddles = new ArrayList<>();
     private List<Ball> balls = new ArrayList<>();
+    private List<Block> blocks = new ArrayList<>();
     private int width;
     private int height;
 
@@ -22,10 +20,10 @@ public class Game {
         this.height = height;
         this.players = players;
         this.maxScore = maxScore;
-        this.initializeGame();
+        this.reset();
     }
 
-    private void initializeGame() {
+    private void initializePongGame() {
         int paddleWidth = PropertiesManager.getIntProperty("paddle_width");
         int paddleHeight = PropertiesManager.getIntProperty("paddle_height");
 
@@ -33,7 +31,45 @@ public class Game {
 
         paddles.clear();
         paddles.add(new Paddle(paddleWidth, paddleHeight, distanceFromEdge, height / 2));
-        paddles.add(new Paddle(paddleWidth, paddleHeight, width - paddleWidth - distanceFromEdge, height / 2));
+
+        if (players >= 2) {
+            paddles.add(new Paddle(paddleWidth, paddleHeight, width - paddleWidth - distanceFromEdge, height / 2));
+        }
+
+        scores.clear();
+        for (int i = 0; i < players; i++) {
+            scores.add(0);
+        }
+
+        balls.clear();
+        balls.add(new Ball(20, 20, width / 2, height / 2));
+    }
+
+    private void initializeBreakoutGame() {
+        int paddleWidth = PropertiesManager.getIntProperty("paddle_width");
+        int paddleHeight = PropertiesManager.getIntProperty("paddle_height");
+
+        int paddleDistanceFromEdge = 100;
+
+        paddles.clear();
+        paddles.add(new Paddle(paddleWidth, paddleHeight, paddleDistanceFromEdge, height / 2));
+        if (players >= 2) {
+            paddles.add(new Paddle(paddleWidth, paddleHeight, width - paddleWidth - paddleDistanceFromEdge, height / 2));
+        }
+        int blockDistanceFromEdge = 20;
+        int blockWidth = PropertiesManager.getIntProperty("block_width");
+        int blockHeight = PropertiesManager.getIntProperty("block_height");
+
+        blocks.clear();
+        for (int i = 0; i < height / blockHeight; i++) {
+            blocks.add(new Block(blockWidth, blockHeight - 1, width - blockWidth - blockDistanceFromEdge, i * blockHeight + i));
+        }
+
+        if (PropertiesManager.getIntProperty("players") >= 2) {
+            for (int i = 0; i < height / blockHeight; i++) {
+                blocks.add(new Block(blockWidth, blockHeight - 1, blockDistanceFromEdge, i * blockHeight + i));
+            }
+        }
 
         scores.clear();
         for (int i = 0; i < players; i++) {
@@ -66,6 +102,8 @@ public class Game {
         if (!isOver()) {
             paddles.forEach(p -> p.onTick(this));
             balls.forEach(b -> b.onTick(this));
+            blocks.forEach(b -> b.onTick(this));
+            handleBlocks();
             score();
         }
     }
@@ -84,6 +122,10 @@ public class Game {
 
     public List<Ball> getBalls() {
         return balls;
+    }
+
+    public List<Block> getBlocks() {
+        return blocks;
     }
 
     public List<Integer> getScores() {
@@ -105,7 +147,21 @@ public class Game {
         }
     }
 
+    private void handleBlocks() {
+        Collection<Block> toRemove = new ArrayList<>();
+        for (Block block : blocks) {
+            if (balls.stream().anyMatch(b -> b.overlaps(block))) {
+                toRemove.add(block);
+            }
+        }
+        blocks.removeAll(toRemove);
+    }
+
     public void reset() {
-        initializeGame();
+        if (PropertiesManager.getBooleanProperty("breakout")) {
+            initializeBreakoutGame();
+        } else {
+            initializePongGame();
+        }
     }
 }

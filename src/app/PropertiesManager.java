@@ -20,7 +20,11 @@ public class PropertiesManager {
             Map.entry("ball_size", "20"),
             Map.entry("max_balls", "5"),
             Map.entry("ball_speed", "7"),
-            Map.entry("balls_collide", "true")
+            Map.entry("balls_collide", "true"),
+            Map.entry("breakout", "false"),
+            Map.entry("block_height", "30"),
+            Map.entry("block_width", "20")
+
     );
 
     private PropertiesManager() {

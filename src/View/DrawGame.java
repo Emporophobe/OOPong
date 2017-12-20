@@ -44,6 +44,7 @@ public class DrawGame {
         gc.fillRect(0, 0, g.getWidth(), g.getHeight());
         g.getPaddles().forEach(p -> DrawIPhysical.draw(p, gc));
         g.getBalls().forEach(b -> DrawIPhysical.draw(b, gc));
+        g.getBlocks().forEach(b -> DrawIPhysical.draw(b, gc));
         drawScores(g, gc);
     }
 }

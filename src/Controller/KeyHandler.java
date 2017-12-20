@@ -57,6 +57,8 @@ public class KeyHandler {
         }
 
         g.setPaddleVelocity(0, p0x, p0y);
-        g.setPaddleVelocity(1, p1x, p1y);
+        if (PropertiesManager.getIntProperty("players") >= 2) {
+            g.setPaddleVelocity(1, p1x, p1y);
+        }
     }
 }

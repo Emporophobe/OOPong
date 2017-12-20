@@ -32,6 +32,7 @@ public class Ball extends APhysical {
 
         Collection<IPhysical> collidables = new LinkedList<>();
         collidables.addAll(g.getPaddles());
+        collidables.addAll(g.getBlocks());
 
         if (PropertiesManager.getBooleanProperty("balls_collide")) {
             collidables.addAll(g.getBalls());
